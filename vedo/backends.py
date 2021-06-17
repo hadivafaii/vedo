@@ -184,14 +184,14 @@ def getNotebookBackend(actors2show, zoom, viewup):
                 # print('Mesh', ia.name, ia.N(), len(ia.faces()))
                 kobj = k3d.vtk_poly_data(iapoly,
                                          name=name,
-                                         # color=_rgb2int(iap.GetColor()),
-                                         color_attribute=color_attribute,
-                                         color_map=kcmap,
+                                         color=rgb2int(iap.GetColor()),
+                                         # color_attribute=color_attribute,
+                                         # color_map=kcmap,
                                          opacity=iap.GetOpacity(),
-                                         wireframe=(iap.GetRepresentation()==1))
+                                         wireframe=(iap.GetRepresentation() == 1))
 
-                if iap.GetInterpolation() == 0:
-                    kobj.flat_shading = True
+                # if iap.GetInterpolation() == 0:
+                kobj.flat_shading = False
                 settings.notebook_plotter += kobj
 
             #####################################################################Points
@@ -281,7 +281,8 @@ def getNotebookBackend(actors2show, zoom, viewup):
     return settings.notebook_plotter
 
 
-def _rgb2int(rgb_tuple):
-    #Return the int number of a color from (r,g,b), with 0<r<1 etc.
-    rgb = (int(rgb_tuple[0] * 255), int(rgb_tuple[1] * 255), int(rgb_tuple[2] * 255))
-    return 65536 * rgb[0] + 256 * rgb[1] + rgb[2]
+def rgb2int(rgb: tuple):
+    def _convert2int():
+        return map(lambda x: int(x * 255) if 0 <= x <= 1 else int(x), rgb)
+    r, g, b = _convert2int()
+    return (r << 16) + (g << 8) + b
