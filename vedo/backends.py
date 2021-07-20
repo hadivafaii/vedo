@@ -205,7 +205,7 @@ def getNotebookBackend(actors2show, zoom, viewup):
                 # sqsize = numpy.sqrt(numpy.dot(sizes, sizes))
 
                 kobj = k3d.points(ia.points().astype(numpy.float32),
-                                  color=_rgb2int(iap.GetColor()),
+                                  color=rgb2int(iap.GetColor()),
                                   colors=kcols,
                                   opacity=iap.GetOpacity(),
                                   shader="dot",
@@ -235,7 +235,7 @@ def getNotebookBackend(actors2show, zoom, viewup):
                         break
                     pts = ia.points()[ln_idx]
                     kobj = k3d.line(pts.astype(numpy.float32),
-                                    color=_rgb2int(iap.GetColor()),
+                                    color=rgb2int(iap.GetColor()),
 #                                    colors=kcols,
                                     opacity=iap.GetOpacity(),
                                     shader="thick",
